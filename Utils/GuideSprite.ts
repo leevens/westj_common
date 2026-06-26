@@ -6,12 +6,7 @@ export default class GuideSprite extends cc.Component {
     public label: cc.Label | null = null;
     @property
     public text: string = "hello";
-    protected onLoad(): void {
-        // no-op
-    }
-    protected start(): void {
-        // no-op
-    }
+
     protected onEnable(): void {
         this.node.stopAllActions();
         cc.tween(this.node)

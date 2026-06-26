@@ -18,7 +18,4 @@ export default class AwardShowEffect extends cc.Component {
             .by(0.3, { y: -100, scale: -0.5 }, { easing: "backOut" } as any)
             .start();
     }
-    protected start(): void {
-        // no-op
-    }
 }

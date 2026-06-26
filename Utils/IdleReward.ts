@@ -566,7 +566,6 @@ export default class IdleReward extends cc.Component {
     onLoad() {
         IdleReward.instance = this;
         this.Content = this.node.getChildByName("Content");
-        // this.Guide = this.node.getChildByName("Guide").getChildByName("Guide");
         this.Realm = this.RealmSp.getChildByName("Realm").getComponent(cc.Label);
         this.OutputCoinpos = this.Content.getChildByName("OutputCoinpos");
         this.Visualize = this.Content.getChildByName("Visualize").getComponent(sp.Skeleton);
@@ -576,7 +575,6 @@ export default class IdleReward extends cc.Component {
         this.AtkLabel = this.Content.getChildByName("Atk");
         this.FightLabel = this.Content.getChildByName("Fight");
         this.SpeedLabel = this.Content.getChildByName("Speed");
-        //this.Break = this.Content.getChildByName("Break").getComponent(sp.Skeleton);
         this.Next = this.Content.getChildByName("Next");
         this.Nextprogress = this.Next.getChildByName("progress").getComponent(cc.Sprite);
         this.Nextneed = this.Next.getChildByName("need").getComponent(cc.Label);
@@ -617,20 +615,15 @@ export default class IdleReward extends cc.Component {
         const psliftVar = breakps.lifeVar;
         const pslift = breakps.life;
         const total = breakps.totalParticles;
-        // const psRotatePers = breakps.rotatePerS;
-        // let juqiSound = -1;
+
         this.Break.node.on(cc.Node.EventType.TOUCH_START, () => {
-            // console.log("###breakParticle touch start");
-            //breakps.speed = 1000;
+
             breakps.lifeVar = 0.5;
             breakps.life = 0.5;
             breakps.totalParticles = 2000;
             breakps.startSize = 200;
             this.BreakSoundHandle = SoundManager.instance.play(Sound.JuqiStart, false);
-            // if( juqiSound != -1)
-            // {
-            //     SoundManager.instance.stop(juqiSound);
-            // }
+ 
             this.BreakStartTime = Date.now();
             this.breakCdPro.node.parent.active = true;
             this.breakCdPro.fillRange = 0;
@@ -641,17 +634,15 @@ export default class IdleReward extends cc.Component {
                 .start();
         }, this);
         this.Break.node.on(cc.Node.EventType.TOUCH_END, () => {
-            // console.log("###breakParticle touch end");
             breakps.lifeVar = psliftVar;
             breakps.life = pslift;
             breakps.totalParticles = total;
             breakps.startSize = 10;
-            // breakps.rotatePerS = psrotatePers;
             breakps.resetSystem();
             SoundManager.instance.stop(this.BreakSoundHandle);
             this.BreakSoundHandle = -1;
             this.BreakCdTween.stop();
-            // console.log("###ClickBreak");
+
             let usetime = Date.now() - this.BreakStartTime;
             this.BreakStartTime = 0;
             SoundManager.instance.stop(this.BreakSoundHandle);
@@ -667,12 +658,12 @@ export default class IdleReward extends cc.Component {
             this.breakCdPro.node.parent.active = false;
         }, this);
         this.Break.node.on(cc.Node.EventType.TOUCH_CANCEL, () => {
-            // console.log("###breakParticle touch cancel");
+
             breakps.lifeVar = psliftVar;
             breakps.life = pslift;
             breakps.startSize = 10;
             breakps.totalParticles = total;
-            // breakps.rotatePerS = psrotatePers;
+
             breakps.resetSystem();
             SoundManager.instance.stop(this.BreakSoundHandle);
             this.BreakSoundHandle = -1;
@@ -758,7 +749,6 @@ export default class IdleReward extends cc.Component {
     }
     async calBreakState(): Promise<number> {
         if (GameSystem.getMaxCustoms() < 3 || GameSystem.getLevel() >= 200) {
-            //  console.log("### GameSystem.getLevel() ",GameSystem.getLevel())
             return 0;
         }
         let canBreak = CoinOutputDataManager.Instance.IsCanBreak();
@@ -879,7 +869,6 @@ export default class IdleReward extends cc.Component {
         GameSystem.doBreak = false;
         this.DevilSp.setAnimation(0, "qumo_chenggong", true);
         this.DevilSp.setCompleteListener(() => {
-            // this.DevilSp.node.active = false;
             this.initBreak();
         });
     }
