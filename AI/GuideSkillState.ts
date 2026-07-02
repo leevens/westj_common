@@ -27,23 +27,7 @@ export default class GuideSkillState extends AIState {
     public Update(dt: number): void {
         super.Update(dt);
         const self = this;
-        if (this.time > 0) {
-            this.time -= dt * GameSystem.speed;
-            this.curpanel.CdSp.fillRange = this.curpanel.releaseTime - this.time / this.curpanel.releaseTime;
-            if (this.time <= 0 && this.curpanel.callback) {
-                // 播放技能释放特效
-                if (1 == this.curpanel.skilltype && this.curpanel.doSp) {
-                    this.curpanel.doSp.setAnimation(0, "eff_Sskill_eff", false);
-                    this.curpanel.doSp.setCompleteListener(function () {
-                        if ("eff_Sskill_eff" == self.curpanel.doSp.animation) {
-                            self.curpanel.doSp.node.active = false;
-                        }
-                    });
-                }
-                // 执行技能回调
-                this.curpanel.callback();
-            }
-        }
+
     }
     /** 退出状态，清理技能效果 */
     public ExitState(): void {
@@ -58,20 +42,5 @@ export default class GuideSkillState extends AIState {
         super.EnterState();
         this.curpanel.CdSp.node.active = true;
         this.time = this.curpanel.releaseTime;
-        this.curpanel.CdSp.fillRange = 0;
-        // 技能类型为1时播放加载动画和音效
-        if (1 == this.curpanel.skilltype) {
-            if (this.curpanel.doSp) {
-                this.curpanel.doSp.node.active = true;
-                this.curpanel.doSp.setAnimation(0, "eff_loading", true);
-            }
-            // 根据角色ID播放不同音效
-            if (1 == this.curpanel.role.id || 6 == this.curpanel.role.id) {
-                SoundManager.instance.play(Sound.Nv);
-            }
-            else if (5 == this.curpanel.index || 7 == this.curpanel.index) {
-                SoundManager.instance.play(Sound.Nan);
-            }
-        }
     }
 }

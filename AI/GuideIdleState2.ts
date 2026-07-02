@@ -30,10 +30,6 @@ export default class GuideIdleState2 extends AIState {
     /** 进入状态，播放空闲动画 */
     EnterState() {
         super.EnterState();
-        if (this.curDisciple == null) {
-            console.log("GuideIdleState2 EnterState 未初始化DiscipleControl");
-            return;
-        }
-        this.curDisciple.Spine.setAnimation(0, "idle", true);
+
     }
 }

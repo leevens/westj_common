@@ -67,10 +67,5 @@ export default class AIMonsterSkill extends AIState {
         this.maxtime = this.time;
         this.curMonster.do.active = true;
         this.curMonster.dopro.fillRange = 0;
-        // 技能类型为1时播放加载动画
-        if (1 == this.curMonster.skilltype) {
-            this.curMonster.doSkillSp.node.active = true;
-            this.curMonster.doSkillSp.setAnimation(0, "eff_loading", true);
-        }
     }
 }

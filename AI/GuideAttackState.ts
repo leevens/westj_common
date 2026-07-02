@@ -110,65 +110,6 @@ export default class GuideAttackState extends AIState {
             return;
         }
         this.state = 1;
-        // 近战攻击
-        if ("近战" == this.curpanel.role.type) {
-            const dur: number = 0.1 / GameSystem.speed;
-            const diff: any = this.curpanel.node.position.sub(this.curpanel.target.node.position);
-            cc.tween(this.curpanel.Content)
-                .by(dur, { position: cc.v3(-diff.x / 5, -diff.y / 5, 0) } as any)
-                .call(function () {
-                self.time = 0;
-                self.Attack();
-            })
-                .by(dur, { position: cc.v3(diff.x / 5, diff.y / 5, 0) } as any)
-                .start();
-        }
-        else {
-            // 远程攻击
-            const dur: number = 0.1 / GameSystem.speed;
-            const diff: any = this.curpanel.node.position.sub(this.curpanel.target.node.position);
-            cc.tween(this.curpanel.Content)
-                .call(function () {
-                if (2 != self.stateId)
-                    self.curpanel.node.stopAllActions();
-            })
-                .by(dur, { position: cc.v3(-diff.x / 8, -diff.y / 8, 0) } as any)
-                .call(function () {
-                if (2 == self.stateId) {
-                    // Boss特殊处理：攻击所有队友
-                    if (4 == self.curpanel.role.id) {
-                        self.time = 0;
-                        const teamers: any[] = self.curpanel.curpannel.GetTeamer();
-                        const spawn = function (i: number) {
-                            const bulletNode: any = self.curpanel.curpannel.Createbuttet();
-                            const worldPos: any = self.curpanel.node.convertToWorldSpaceAR(self.curpanel.Content.getPosition());
-                            const localPos: any = self.curpanel.node.parent.convertToNodeSpaceAR(worldPos);
-                            bulletNode.setPosition(localPos);
-                            bulletNode.getComponent(BulletEffect).init(0, 3, self.curpanel, teamers[i], function () {
-                                self.AllAttack(teamers[i]);
-                            });
-                        };
-                        for (let i = 0; i < teamers.length; i++)
-                            spawn(i);
-                    }
-                    else {
-                        // 普通远程攻击
-                        const bulletNode: any = self.curpanel.curpannel.Createbuttet();
-                        const worldPos: any = self.curpanel.node.convertToWorldSpaceAR(self.curpanel.Content.getPosition());
-                        const localPos: any = self.curpanel.node.parent.convertToNodeSpaceAR(worldPos);
-                        bulletNode.setPosition(localPos);
-                        bulletNode.getComponent(BulletEffect).init(0, 3, self.curpanel, self.curpanel.target, function () {
-                            self.Attack();
-                        });
-                    }
-                }
-                else {
-                    self.curpanel.node.stopAllActions();
-                }
-            })
-                .by(dur, { position: cc.v3(diff.x / 8, diff.y / 8, 0) } as any)
-                .start();
-        }
     }
     /**
      * 构造函数

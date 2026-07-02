@@ -38,6 +38,5 @@ export default class GuideVertigoState extends AIState {
     public EnterState(): void {
         super.EnterState();
         this.time = 0;
-        this.curpanel.curpannel.setText(9, "眩晕中", this.curpanel.node);
     }
 }
